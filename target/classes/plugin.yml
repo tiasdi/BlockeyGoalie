@@ -1,0 +1,6 @@
+name: BlockeyGoaltender
+version: 1.0-SNAPSHOT
+main: me.tias.blockeygoaltender.BlockeyGoaltender
+api-version: 1.17
+authors: [ x_tias ]
+description: Blockey Goalie
