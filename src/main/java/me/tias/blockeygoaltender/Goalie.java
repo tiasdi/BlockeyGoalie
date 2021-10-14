@@ -37,22 +37,32 @@ public class Goalie {
     }
 
     public void teleportPads() {
-        Location teleport;
-        teleport = getLocation().clone();
-        teleport.setPitch(0);
-        teleport.setYaw(Utilities.newYaw(getLocation().getYaw()-90));
-        teleport.add(teleport.getDirection().multiply(-0.1));
-        teleport.setYaw(Utilities.newYaw(getLocation().getYaw()+33));
-        teleport.add(teleport.getDirection().multiply(0.33));
 
-        leftPad.teleport(teleport);
-        teleport = getLocation().clone();
-        teleport.setPitch(0);
-        teleport.setYaw(Utilities.newYaw(getLocation().getYaw()+90));
-        teleport.add(teleport.getDirection().multiply(-0.1));
-        teleport.setYaw(Utilities.newYaw(getLocation().getYaw()-33));
-        teleport.add(teleport.getDirection().multiply(0.33));
-        rightPad.teleport(teleport);
+        if (player.isSneaking()) {
+            if (!padsDisplayed()) {
+                displayPads(true);
+            }
+        } else {
+            displayPads(false);
+        }
+
+            Location teleport;
+            teleport = getLocation().clone();
+            teleport.setPitch(0);
+            teleport.setYaw(Utilities.newYaw(getLocation().getYaw() - 90));
+            teleport.add(teleport.getDirection().multiply(-0.1));
+            teleport.setYaw(Utilities.newYaw(getLocation().getYaw() + 33));
+            teleport.add(teleport.getDirection().multiply(0.33));
+
+            leftPad.teleport(teleport);
+            teleport = getLocation().clone();
+            teleport.setPitch(0);
+            teleport.setYaw(Utilities.newYaw(getLocation().getYaw() + 90));
+            teleport.add(teleport.getDirection().multiply(-0.1));
+            teleport.setYaw(Utilities.newYaw(getLocation().getYaw() - 33));
+            teleport.add(teleport.getDirection().multiply(0.33));
+            rightPad.teleport(teleport);
+
     }
 
     public void createPads() {
@@ -70,9 +80,12 @@ public class Goalie {
 
     public void setupPad(ArmorStand stand) {
         meta.setColor(Color.BLACK);
-        stand.setInvisible(true);
+        pads.setItemMeta(meta);
+        stand.setMarker(true);
         stand.setInvulnerable(true);
         stand.setBasePlate(false);
+        stand.setInvisible(true);
+        stand.setSilent(true);
         stand.getScoreboardTags().add("GOALIEPAD");
     }
 
@@ -94,30 +107,6 @@ public class Goalie {
         return player.getLocation();
     }
 
-    private int taskId;
-
-    public void startPadTask(){
-        this.taskId = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-            @Override
-            public void run() {
-                if (player.isSneaking()) {
-                    teleportPads();
-                        if (!padsDisplayed()) {
-                            displayPads(true);
-                        }
-                    isSneaking = true;
-                } else {
-                    isSneaking = false;
-                    displayPads(false);
-                    stopScheduler();
-                }
-            }
-                }, 0, 1);
-            }
-
-    public void stopScheduler(){
-        Bukkit.getServer().getScheduler().cancelTask(this.taskId);
-    }
 
 
 

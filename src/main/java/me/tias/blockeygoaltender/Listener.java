@@ -28,14 +28,14 @@ public class Listener implements org.bukkit.event.Listener {
         plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
 
-    @EventHandler
+    /*@EventHandler
     public void playerSneak(PlayerToggleSneakEvent e) {
         if (e.getPlayer().getScoreboardTags().contains("goalie")) {
             Goalie goalie = GoalieManager.getSelected(e.getPlayer().getUniqueId());
             goalie.teleportPads();
             goalie.startPadTask();
         }
-    }
+    } */
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -45,7 +45,6 @@ public class Listener implements org.bukkit.event.Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Goalie goalie = GoalieManager.getSelected(e.getPlayer().getUniqueId());
-        goalie.stopScheduler();
         goalie.killPads();
         GoalieManager.removeGoalie(e.getPlayer());
         e.getPlayer().getScoreboardTags().remove("goalie");

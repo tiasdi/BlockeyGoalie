@@ -36,4 +36,11 @@ public class GoalieManager {
         return goalieList.get(uuid);
     }
 
+    public static Map<UUID, Goalie> getGoalieList() {
+        return goalieList;
+    }
+
+    public void test() {
+        goalieList.forEach((uuid, goalie1) -> goalie1.teleportPads());
+    }
 }
