@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -45,6 +46,8 @@ public class Goalie {
         } else {
             displayPads(false);
         }
+            @NotNull Vector playerVel = player.getVelocity().multiply(2.25);
+            @NotNull int playerY = (int) player.getLocation().getY();
 
             Location teleport;
             teleport = getLocation().clone();
@@ -53,14 +56,18 @@ public class Goalie {
             teleport.add(teleport.getDirection().multiply(-0.1));
             teleport.setYaw(Utilities.newYaw(getLocation().getYaw() + 33));
             teleport.add(teleport.getDirection().multiply(0.33));
-
+            teleport.add(playerVel);
+            teleport.setY(playerY);
             leftPad.teleport(teleport);
+
             teleport = getLocation().clone();
             teleport.setPitch(0);
             teleport.setYaw(Utilities.newYaw(getLocation().getYaw() + 90));
             teleport.add(teleport.getDirection().multiply(-0.1));
             teleport.setYaw(Utilities.newYaw(getLocation().getYaw() - 33));
             teleport.add(teleport.getDirection().multiply(0.33));
+            teleport.add(playerVel);
+            teleport.setY(playerY);
             rightPad.teleport(teleport);
 
     }
